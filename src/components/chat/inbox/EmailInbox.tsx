@@ -202,7 +202,7 @@ interface EmailInboxProps {
 
 export const EmailInbox: React.FC<EmailInboxProps> = ({ contacts: propContacts }) => {
   // Use provided contacts or fallback to sample data
-  const [contacts, setContacts] = useState<Contact[]>(propContacts || EMAIL_CONTACTS);
+  const [contacts, setContacts] = useState<Contact[]>(propContacts || []);
   const [threads, setThreads] = useState<Thread[]>(EMAIL_THREADS);
   const [selectedContactId, setSelectedContactId] = useState<string | null>(null);
   const [selectedThreadId, setSelectedThreadId] = useState<string | null>(null);
