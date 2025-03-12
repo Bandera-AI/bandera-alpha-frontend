@@ -11,7 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Contact } from "@/types/inbox";
 
 export const SocialInbox = () => {
-  const [activeTab, setActiveTab] = useState("email");
+  const [activeTab, setActiveTab] = useState("");
   const [emailContacts, setEmailContacts] = useState<Contact[]>([]);
   const [linkedinContacts, setLinkedinContacts] = useState<Contact[]>([]);
   const [twitterContacts, setTwitterContacts] = useState<Contact[]>([]);

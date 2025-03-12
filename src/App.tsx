@@ -9,7 +9,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { SocialInbox } from "@/components/chat/SocialInbox";
 import Index from "./pages/Index";
 import ViewDemo from "./pages/ViewDemo";
-import AIAutomation from "./pages/AIAutomation";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +23,6 @@ function App() {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/view-demo" element={<ViewDemo />} />
-              <Route path="/ai-automation" element={<AIAutomation />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/chat/inbox" element={<SocialInbox />} />
               {/* Redirect routes for specific inbox types */}

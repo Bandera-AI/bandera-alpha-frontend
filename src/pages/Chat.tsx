@@ -728,7 +728,7 @@ const Chat = () => {
               </PopoverTrigger>
               <PopoverContent className="w-56 p-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-md rounded-lg">
                 <div className="flex flex-col gap-1">
-                  <Button
+                  {/* <Button
                     variant="ghost"
                     size="sm"
                     className="justify-start font-normal"
@@ -736,7 +736,7 @@ const Chat = () => {
                   >
                     <Inbox className="mr-2 h-4 w-4" />
                     All Inboxes
-                  </Button>
+                  </Button> */}
                   <Button
                     variant="ghost"
                     size="sm"
