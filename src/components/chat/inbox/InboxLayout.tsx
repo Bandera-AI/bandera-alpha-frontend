@@ -39,7 +39,7 @@ export const InboxLayout: React.FC<InboxLayoutProps> = ({
   investorsContent,
 }) => {
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4 ">
       {platformTabs}
       
       <div className="grid grid-cols-12 gap-4 h-[calc(100vh-220px)] min-h-[500px]">
