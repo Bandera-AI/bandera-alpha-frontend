@@ -4,8 +4,8 @@ import { motion, useInView } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Mail, Linkedin, Twitter, Phone, Globe } from "lucide-react";
-import CEO_avatar from '/public/bandera-uploads/photo_5368398345212653732_y.jpg';
-import CTO_avatar from '/public/bandera-uploads/T032XS1SL0M-U063T2L1SBY-e179f9a1d4df-512.png';
+import CEO_avatar from '/bandera-uploads/photo_5368398345212653732_y.jpg';
+import CTO_avatar from '/bandera-uploads/T032XS1SL0M-U063T2L1SBY-e179f9a1d4df-512.png';
 
 const teamMembers = [
   {
