@@ -117,21 +117,6 @@ const Index = () => {
                     </motion.div>
                   </div>
                 </section>
-
-                <section className="section-padding">
-                  <div className="container-custom">
-                    <div className="text-center mb-12">
-                      <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        The <span className="text-gradient">Future</span> of Sales Automation
-                      </h2>
-                      <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-                        Bandera AI eliminates manual work completely, allowing your sales team to focus on what matters most - building relationships and closing deals.
-                      </p>
-                    </div>
-                    
-                    <SystemizedPoints />
-                  </div>
-                </section>
                 
                 <section className="section-padding">
                   <div className="container-custom">

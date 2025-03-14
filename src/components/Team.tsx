@@ -16,7 +16,7 @@ const teamMembers = [
     fallback: "SJ",
     delay: 0.1,
     contact: {
-      email: "ceo@lead-buds.com",
+      email: "ryan@banderaai.com",
       // phone: "+1 (415) 555-7890",
       linkedin: "linkedin.com/in/ryan-alexander-hennesy-b62349136",
       // twitter: "@sarahjohnson",
@@ -31,7 +31,7 @@ const teamMembers = [
     fallback: "DC",
     delay: 0.2,
     contact: {
-      email: "nigel.russell.luck@gmail.com",
+      email: "nigel@banderaai.com",
       // phone: "+1 (401) 477-2068",
       linkedin: "linkedin.com/in/nigel-russell-0256a2355",
       twitter: "@nigelrussell93",

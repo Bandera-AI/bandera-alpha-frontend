@@ -835,7 +835,7 @@ const Chat = () => {
           className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-slate-900"
         >
           {activeSession.messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center p-4">
+            <div className="flex flex-col items-center my-auto h-full text-center p-4">
               <div className="h-20 w-20 flex items-center justify-center mb-6 animate-pulse bg-transparent">
                 {/* <BrainCircuit className="h-10 w-10 text-white" /> */}
                 <img src="./Bandera AI.png" alt="Logo" />
