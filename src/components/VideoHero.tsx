@@ -11,9 +11,14 @@ const VideoHero = () => {
     >
       <div className="relative aspect-video w-full h-full">
         <img
-          src="/bandera-uploads/f0cea33e-a2a6-4c95-b8cd-b84ac33b1f0d.png"
+          src="/bandera-uploads/product.png"
           alt="Bandera AI Dashboard"
-          className="w-full h-full object-contain bg-[inherit] p-2 shadow-xl"
+          className="w-2/3 h-2/3 object-contain bg-[inherit] p-2 absolute right-0 bottom-0"
+        />
+        <img
+          src="/bandera-uploads/product1.jpg"
+          alt="Bandera AI Dashboard"
+          className="w-2/3 h-2/3 object-contain bg-[inherit] p-2 absolute top-0 left-0"
         />
       </div>
     </motion.div>
