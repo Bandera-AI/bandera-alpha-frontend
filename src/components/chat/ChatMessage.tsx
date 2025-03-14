@@ -17,6 +17,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { CompanyTable } from "./CompanyTable";
 import { JobsTable } from "./JobsTable";
 import { InvestorsTable } from "./InvestorsTable";
+import { CEOTable } from "./CEOTable";
 
 interface ChatMessageProps {
   message: Message;
@@ -177,6 +178,17 @@ const ChatMessage = ({
                     <div className="mt-4 bg-white dark:bg-slate-950 rounded-lg shadow-md p-2">
                       <CompanyTable
                         companies={message.companies}
+                        onFindJobs={onFindJobs}
+                        onFindInvestors={onFindInvestors}
+                      />
+                    </div>
+                  )}
+                {!isUser &&
+                  message.ceos &&
+                  message.ceos.length > 0 && (
+                    <div className="mt-4 bg-white dark:bg-slate-950 rounded-lg shadow-md p-2">
+                      <CEOTable
+                        ceos={message.ceos}
                         onFindJobs={onFindJobs}
                         onFindInvestors={onFindInvestors}
                       />

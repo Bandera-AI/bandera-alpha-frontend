@@ -28,7 +28,7 @@ import { cn } from "@/lib/utils";
 import ChatMessage from "@/components/chat/ChatMessage";
 import SidePanel from "@/components/chat/SidePanel";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ChatSession, Message, CompanyData, JobData, InvestorData } from "@/types/chat";
+import { ChatSession, Message, CompanyData, JobData, InvestorData, CEOData } from "@/types/chat";
 import { useToast } from "@/components/ui/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { QuestionHint } from "@/components/chat/QuestionHint";
@@ -338,6 +338,7 @@ const Chat = () => {
   });
   const [sessions, setSessions] = useState<ChatSession[]>([activeSession]);
   const [lastCompanyList, setLastCompanyList] = useState<CompanyData[]>([]);
+  const [lastCEOList, setLastCEOList] = useState<CEOData[]>([]);
   const [lastJobList, setLastJobList] = useState<JobData[]>([]);
   const [lastInvestorList, setLastInvestorList] = useState<InvestorData[]>([]);
   const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -558,7 +559,7 @@ const Chat = () => {
           id: company.id,
           name: company.ceo,
           position: "CEO",
-          ceo: "N/A",
+          company: company.name,
           website: company.website,
           industry: company.industry,
           location: company.location,
@@ -574,9 +575,9 @@ const Chat = () => {
           role: "assistant",
           content: "Here are the CEOs you requested:",
           timestamp: new Date().toISOString(),
-          companies: ceoList
+          ceos: ceoList
         };
-        setLastCompanyList(ceoList);
+        setLastCEOList(ceoList);
       } else if (lowerCaseInput.includes("find jobs") || lowerCaseInput.includes("search jobs")) {
         const companyNameMatch = messageContent.match(/find jobs in (.*)/i) || messageContent.match(/search jobs in (.*)/i);
         let filteredJobs = SAMPLE_JOBS;
@@ -626,6 +627,18 @@ const Chat = () => {
         if (lastCompanyList.length > 0) {
           setTimeout(() => {
             downloadExcel(lastCompanyList);
+          }, 500);
+        } else if (lastCEOList.length > 0) {
+          setTimeout(() => {
+            const worksheet = XLSX.utils.json_to_sheet(lastJobList);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Jobs");
+            XLSX.writeFile(workbook, "job-list.xlsx");
+            
+            toast({
+              title: "Download complete",
+              description: "The Jobs Excel file has been downloaded successfully.",
+            });
           }, 500);
         } else if (lastJobList.length > 0) {
           setTimeout(() => {

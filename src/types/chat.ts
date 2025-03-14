@@ -4,8 +4,10 @@ export interface Message {
   content: string;
   timestamp: string;
   companies?: CompanyData[]; // For company list results
+  ceos?: CEOData[]; // For company list results
   jobs?: JobData[]; // For job listings
   investors?: InvestorData[]; // For investor listings
+
 }
 
 export interface ChatSession {
@@ -22,6 +24,26 @@ export interface CompanyData {
   name: string;
   position?: string;
   ceo: string;
+  website: string;
+  contact: { phone: string; instagram: string; x: string; linkedin: string };
+  industry: string;
+  location: string;
+  workEmail?: string;
+  salesEmail?: string;
+  leadScores: {
+    engagement: number;
+    firmographicFit: number;
+    conversion: number;
+    rank: number;
+  };
+  logo?: string;
+  description?: string;
+}
+export interface CEOData {
+  id: string;
+  name: string;
+  position?: string;
+  company: string;
   website: string;
   contact: { phone: string; instagram: string; x: string; linkedin: string };
   industry: string;
