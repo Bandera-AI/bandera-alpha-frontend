@@ -11,16 +11,16 @@ import { Mail, Send } from "lucide-react";
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.2 });
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
     message: "",
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -28,11 +28,11 @@ const Contact = () => {
       [name]: value
     }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       // Check if all required fields are filled
       if (!formData.name || !formData.email || !formData.message) {
@@ -40,7 +40,7 @@ const Contact = () => {
         setIsSubmitting(false);
         return;
       }
-      
+
       // Prepare the email data
       const emailData = {
         to: "nigel.russell0126@gmail.com",
@@ -52,21 +52,21 @@ const Contact = () => {
           Message: ${formData.message}
         `
       };
-      
+
       // Log the email data for now (will be replaced with Supabase Edge Function)
       console.log("Email data to send:", emailData);
-      
+
       // Here you would normally call a Supabase Edge Function
       // For example:
       // const { data, error } = await supabase.functions.invoke('send-email', {
       //   body: emailData
       // });
-      
+
       // if (error) throw error;
-      
+
       // For now, simulate success
       toast.success("Message sent successfully! We'll be in touch soon.");
-      
+
       // Reset the form
       setFormData({
         name: "",
@@ -81,15 +81,15 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <section id="contact" className="section-padding relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full bg-bandera-blue/5 blur-3xl -z-10" />
       <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-bandera-purple/5 blur-3xl -z-10" />
-      
+
       <div className="container-custom" ref={ref}>
-        <motion.div 
+        <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -100,12 +100,12 @@ const Contact = () => {
             Ready to <span className="text-gradient">Transform</span> Your Sales Process?
           </h2>
           <p className="text-muted-foreground text-lg">
-            Reach out to discuss how Bandera AI can help your business generate 
+            Reach out to discuss how Bandera AI can help your business generate
             more leads and accelerate growth.
           </p>
         </motion.div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+        <div className="w-full lg:w-1/2 mx-auto gap-10">
           <motion.div
             className="glass-card p-8"
             initial={{ opacity: 0, x: -30 }}
@@ -118,7 +118,7 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-semibold">Send Us a Message</h3>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <label htmlFor="name" className="text-sm font-medium">
@@ -134,7 +134,7 @@ const Contact = () => {
                   className="bg-white/50"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <label htmlFor="email" className="text-sm font-medium">
                   Email Address
@@ -150,7 +150,7 @@ const Contact = () => {
                   className="bg-white/50"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <label htmlFor="company" className="text-sm font-medium">
                   Company Name
@@ -164,7 +164,7 @@ const Contact = () => {
                   className="bg-white/50"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <label htmlFor="message" className="text-sm font-medium">
                   Message
@@ -179,9 +179,9 @@ const Contact = () => {
                   className="min-h-[120px] bg-white/50"
                 />
               </div>
-              
-              <Button 
-                type="submit" 
+
+              <Button
+                type="submit"
                 className="w-full bg-bandera-gradient hover:opacity-90 transition-opacity"
                 disabled={isSubmitting}
               >
@@ -202,8 +202,8 @@ const Contact = () => {
               </Button>
             </form>
           </motion.div>
-          
-          <motion.div
+
+          {/* <motion.div
             className="flex flex-col justify-between h-full"
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
@@ -232,7 +232,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium">Email</p>
-                    <p className="text-muted-foreground">info@bandera-ai.com</p>
+                    <p className="text-muted-foreground">support@banderaai.com</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -249,7 +249,7 @@ const Contact = () => {
                 </li>
               </ul>
             </div>
-            
+
             <div className="glass-card p-8">
               <h3 className="text-xl font-semibold mb-4">Office Hours</h3>
               <ul className="space-y-2">
@@ -267,7 +267,7 @@ const Contact = () => {
                 </li>
               </ul>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </section>
