@@ -4,7 +4,7 @@ import { Mail, MessageSquare } from "lucide-react";
 
 interface EmptyStateProps {
   type: "contact" | "thread";
-  platform: "email" | "linkedin" | "twitter";
+  platform: "email" | "linkedin" | "twitter" | "whatsapp";
 }
 
 export const EmptyState: React.FC<EmptyStateProps> = ({ type, platform }) => {
@@ -12,6 +12,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ type, platform }) => {
     email: <Mail className="h-12 w-12 mb-4 opacity-20" />,
     linkedin: <MessageSquare className="h-12 w-12 mb-4 opacity-20" />,
     twitter: <MessageSquare className="h-12 w-12 mb-4 opacity-20" />,
+    whatsapp: <MessageSquare className="h-12 w-12 mb-4 opacity-20" />,
   };
 
   const messages = {
@@ -19,11 +20,13 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ type, platform }) => {
       email: "Select a contact to view email conversations",
       linkedin: "Select a contact to view LinkedIn messages",
       twitter: "Select a contact to view Twitter conversations",
+      whatsapp: "Select a contact to view WhatApp conversations",
     },
     thread: {
       email: "Select or start a new email conversation",
       linkedin: "Select or start a new LinkedIn message",
       twitter: "Select or start a new Twitter conversation",
+      whatsapp: "Select or start a new WhatsApp conversation",
     },
   };
 

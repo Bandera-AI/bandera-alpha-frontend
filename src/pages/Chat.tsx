@@ -2,11 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Send, 
-  MessageSquare, 
-  User, 
-  Settings, 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import {
+  Send,
+  MessageSquare,
+  User,
+  Settings,
   RefreshCw,
   PanelLeft,
   Trash,
@@ -22,7 +24,7 @@ import {
   ChevronDown,
   Mail,
   Linkedin,
-  Twitter
+  LucideTwitter
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ChatMessage from "@/components/chat/ChatMessage";
@@ -37,7 +39,7 @@ import { ThemeToggle } from "@/components/chat/ThemeToggle";
 
 import * as XLSX from 'xlsx';
 import { useNavigate } from "react-router-dom";
-import { Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const DEFAULT_SYSTEM_MESSAGE = "You are a helpful, creative, and concise assistant. When asked about companies or CEOs, provide detailed information in a structured format.";
 
@@ -48,7 +50,7 @@ const SAMPLE_COMPANIES: CompanyData[] = [
     position: "CEO",
     ceo: "Sarah Johnson",
     website: "https://techvision.com",
-    contact:{phone:"+12345678900", instagram:"https://instagram.com/techvision", x:"https://x.com/techvision", linkedin: "https://www.linkedin.com/in/techvision"},
+    contact: { phone: "+12345678900", instagram: "https://instagram.com/techvision", x: "https://x.com/techvision", linkedin: "https://www.linkedin.com/in/techvision", whatsapp: "+1 (401) 477-2068" },
     industry: "Technology",
     location: "San Francisco, CA",
     workEmail: "info@techvision.com",
@@ -62,7 +64,7 @@ const SAMPLE_COMPANIES: CompanyData[] = [
     position: "Founder",
     ceo: "Michael Chen",
     website: "https://greenenergy.com",
-    contact:{phone:"+12345678900", instagram:"https://instagram.com/greenenergy", x:"https://x.com/greenenergy", linkedin: "https://www.linkedin.com/in/greenenergy"},
+    contact: { phone: "+12345678900", instagram: "https://instagram.com/greenenergy", x: "https://x.com/greenenergy", linkedin: "https://www.linkedin.com/in/greenenergy", whatsapp: "+1 (401) 477-2068"  },
     industry: "Renewable Energy",
     location: "Austin, TX",
     workEmail: "contact@greenenergy.com",
@@ -76,7 +78,7 @@ const SAMPLE_COMPANIES: CompanyData[] = [
     position: "President",
     ceo: "Emily Rodriguez",
     website: "https://healthplus.com",
-    contact:{phone:"+12345678900", instagram:"https://instagram.com/healthplus", x:"https://x.com/healthplus", linkedin: "https://www.linkedin.com/in/healthplus"},
+    contact: { phone: "+12345678900", instagram: "https://instagram.com/healthplus", x: "https://x.com/healthplus", linkedin: "https://www.linkedin.com/in/healthplus", whatsapp: "+1 (401) 477-2068"  },
     industry: "Healthcare",
     location: "Boston, MA",
     workEmail: "info@healthplus.com",
@@ -90,7 +92,7 @@ const SAMPLE_COMPANIES: CompanyData[] = [
     position: "Managing Director",
     ceo: "Robert Kiyosaki",
     website: "https://globalfinance.com",
-    contact:{phone:"+12345678900", instagram:"https://instagram.com/globalfinance", x:"https://x.com/globalfinance", linkedin: "https://www.linkedin.com/in/globalfinance"},
+    contact: { phone: "+12345678900", instagram: "https://instagram.com/globalfinance", x: "https://x.com/globalfinance", linkedin: "https://www.linkedin.com/in/globalfinance", whatsapp: "+1 (401) 477-2068"  },
     industry: "Financial Services",
     location: "New York, NY",
     workEmail: "contact@globalfinance.com",
@@ -104,7 +106,7 @@ const SAMPLE_COMPANIES: CompanyData[] = [
     position: "COO",
     ceo: "James Wilson",
     website: "https://oceanblue.com",
-    contact:{phone:"+12345678900", instagram:"https://instagram.com/oceanblue", x:"https://x.com/oceanblue", linkedin: "https://www.linkedin.com/in/oceanblue"},
+    contact: { phone: "+12345678900", instagram: "https://instagram.com/oceanblue", x: "https://x.com/oceanblue", linkedin: "https://www.linkedin.com/in/oceanblue", whatsapp: "+1 (401) 477-2068"  },
     industry: "Logistics & Transportation",
     location: "Miami, FL",
     workEmail: "info@oceanblue.com",
@@ -114,102 +116,102 @@ const SAMPLE_COMPANIES: CompanyData[] = [
   }
 ];
 
-const SAMPLE_HEALTHCARE_COMPANIES: CompanyData[] = [  
-  {  
-    id: "1",  
-    name: "LifeCare Solutions",  
-    position: "CEO",  
-    ceo: "Laura Smith",  
-    website: "https://lifecaresolutions.com",  
-    contact: {  
-      phone: "+12345678901",  
-      instagram: "https://instagram.com/lifecaresolutions",  
-      x: "https://x.com/lifecaresolutions",  
-      linkedin: "https://www.linkedin.com/in/lifecaresolutions"  
-    },  
-    industry: "Healthcare",  
-    location: "Los Angeles, CA",  
-    workEmail: "info@lifecaresolutions.com",  
-    salesEmail: "sales@lifecaresolutions.com",  
-    leadScores: { engagement: 88, firmographicFit: 92, conversion: 85, rank: 90 },  
-    description: "LifeCare Solutions provides innovative healthcare management platforms aimed at improving patient outcomes and operational efficiency."  
-  },  
-  {  
-    id: "2",  
-    name: "MediTech Innovations",  
-    position: "Founder",  
-    ceo: "Robert Garcia",  
-    website: "https://meditechinnovations.com",  
-    contact: {  
-      phone: "+12345678902",  
-      instagram: "https://instagram.com/meditechinnovations",  
-      x: "https://x.com/meditechinnovations",  
-      linkedin: "https://www.linkedin.com/in/meditechinnovations"  
-    },  
-    industry: "Healthcare",  
-    location: "Seattle, WA",  
-    workEmail: "contact@meditechinnovations.com",  
-    salesEmail: "business@meditechinnovations.com",  
-    leadScores: { engagement: 90, firmographicFit: 89, conversion: 94, rank: 93 },  
-    description: "MediTech Innovations develops cutting-edge medical devices aimed at enhancing patient care and treatment processes."  
-  },  
-  {  
-    id: "3",  
-    name: "WellnessCorp",  
-    position: "Chief Medical Officer",  
-    ceo: "Alice Johnson",  
-    website: "https://wellnesscorp.com",  
-    contact: {  
-      phone: "+12345678903",  
-      instagram: "https://instagram.com/wellnesscorp",  
-      x: "https://x.com/wellnesscorp",  
-      linkedin: "https://www.linkedin.com/in/wellnesscorp"  
-    },  
-    industry: "Healthcare",  
-    location: "Chicago, IL",  
-    workEmail: "info@wellnesscorp.com",  
-    salesEmail: "support@wellnesscorp.com",  
-    leadScores: { engagement: 75, firmographicFit: 80, conversion: 78, rank: 76 },  
-    description: "WellnessCorp offers comprehensive wellness programs and healthcare solutions designed to improve quality of life."  
-  },  
-  {  
-    id: "4",  
-    name: "PharmaCare",  
-    position: "VP of Operations",  
-    ceo: "David Lee",  
-    website: "https://pharmacare.com",  
-    contact: {  
-      phone: "+12345678904",  
-      instagram: "https://instagram.com/pharmacare",  
-      x: "https://x.com/pharmacare",  
-      linkedin: "https://www.linkedin.com/in/pharmacare"  
-    },  
-    industry: "Healthcare",  
-    location: "Houston, TX",  
-    workEmail: "info@pharmacare.com",  
-    salesEmail: "sales@pharmacare.com",  
-    leadScores: { engagement: 82, firmographicFit: 75, conversion: 79, rank: 80 },  
-    description: "PharmaCare specializes in the distribution of pharmaceutical products and offers consulting services in healthcare compliance."  
-  },  
-  {  
-    id: "5",  
-    name: "Nutrivibe",  
-    position: "Nutrition Specialist",  
-    ceo: "Sophia Martinez",  
-    website: "https://nutrivibe.com",  
-    contact: {  
-      phone: "+12345678905",  
-      instagram: "https://instagram.com/nutrivibe",  
-      x: "https://x.com/nutrivibe",  
-      linkedin: "https://www.linkedin.com/in/nutrivibe"  
-    },  
-    industry: "Healthcare",  
-    location: "Phoenix, AZ",  
-    workEmail: "info@nutrivibe.com",  
-    salesEmail: "business@nutrivibe.com",  
-    leadScores: { engagement: 87, firmographicFit: 85, conversion: 80, rank: 82 },  
-    description: "Nutrivibe focuses on nutraceutical products and dietary solutions to enhance health and wellness for individuals."  
-  }  
+const SAMPLE_HEALTHCARE_COMPANIES: CompanyData[] = [
+  {
+    id: "1",
+    name: "LifeCare Solutions",
+    position: "CEO",
+    ceo: "Laura Smith",
+    website: "https://lifecaresolutions.com",
+    contact: {
+      phone: "+12345678901",
+      instagram: "https://instagram.com/lifecaresolutions",
+      x: "https://x.com/lifecaresolutions",
+      linkedin: "https://www.linkedin.com/in/lifecaresolutions", whatsapp: "+1 (401) 477-2068" 
+    },
+    industry: "Healthcare",
+    location: "Los Angeles, CA",
+    workEmail: "info@lifecaresolutions.com",
+    salesEmail: "sales@lifecaresolutions.com",
+    leadScores: { engagement: 88, firmographicFit: 92, conversion: 85, rank: 90 },
+    description: "LifeCare Solutions provides innovative healthcare management platforms aimed at improving patient outcomes and operational efficiency."
+  },
+  {
+    id: "2",
+    name: "MediTech Innovations",
+    position: "Founder",
+    ceo: "Robert Garcia",
+    website: "https://meditechinnovations.com",
+    contact: {
+      phone: "+12345678902",
+      instagram: "https://instagram.com/meditechinnovations",
+      x: "https://x.com/meditechinnovations",
+      linkedin: "https://www.linkedin.com/in/meditechinnovations", whatsapp: "+1 (401) 477-2068" 
+    },
+    industry: "Healthcare",
+    location: "Seattle, WA",
+    workEmail: "contact@meditechinnovations.com",
+    salesEmail: "business@meditechinnovations.com",
+    leadScores: { engagement: 90, firmographicFit: 89, conversion: 94, rank: 93 },
+    description: "MediTech Innovations develops cutting-edge medical devices aimed at enhancing patient care and treatment processes."
+  },
+  {
+    id: "3",
+    name: "WellnessCorp",
+    position: "Chief Medical Officer",
+    ceo: "Alice Johnson",
+    website: "https://wellnesscorp.com",
+    contact: {
+      phone: "+12345678903",
+      instagram: "https://instagram.com/wellnesscorp",
+      x: "https://x.com/wellnesscorp",
+      linkedin: "https://www.linkedin.com/in/wellnesscorp", whatsapp: "+1 (401) 477-2068" 
+    },
+    industry: "Healthcare",
+    location: "Chicago, IL",
+    workEmail: "info@wellnesscorp.com",
+    salesEmail: "support@wellnesscorp.com",
+    leadScores: { engagement: 75, firmographicFit: 80, conversion: 78, rank: 76 },
+    description: "WellnessCorp offers comprehensive wellness programs and healthcare solutions designed to improve quality of life."
+  },
+  {
+    id: "4",
+    name: "PharmaCare",
+    position: "VP of Operations",
+    ceo: "David Lee",
+    website: "https://pharmacare.com",
+    contact: {
+      phone: "+12345678904",
+      instagram: "https://instagram.com/pharmacare",
+      x: "https://x.com/pharmacare",
+      linkedin: "https://www.linkedin.com/in/pharmacare", whatsapp: "+1 (401) 477-2068" 
+    },
+    industry: "Healthcare",
+    location: "Houston, TX",
+    workEmail: "info@pharmacare.com",
+    salesEmail: "sales@pharmacare.com",
+    leadScores: { engagement: 82, firmographicFit: 75, conversion: 79, rank: 80 },
+    description: "PharmaCare specializes in the distribution of pharmaceutical products and offers consulting services in healthcare compliance."
+  },
+  {
+    id: "5",
+    name: "Nutrivibe",
+    position: "Nutrition Specialist",
+    ceo: "Sophia Martinez",
+    website: "https://nutrivibe.com",
+    contact: {
+      phone: "+12345678905",
+      instagram: "https://instagram.com/nutrivibe",
+      x: "https://x.com/nutrivibe",
+      linkedin: "https://www.linkedin.com/in/nutrivibe", whatsapp: "+1 (401) 477-2068" 
+    },
+    industry: "Healthcare",
+    location: "Phoenix, AZ",
+    workEmail: "info@nutrivibe.com",
+    salesEmail: "business@nutrivibe.com",
+    leadScores: { engagement: 87, firmographicFit: 85, conversion: 80, rank: 82 },
+    description: "Nutrivibe focuses on nutraceutical products and dietary solutions to enhance health and wellness for individuals."
+  }
 ];
 
 const SAMPLE_JOBS: JobData[] = [
@@ -376,15 +378,15 @@ const Chat = () => {
 
   const findJobs = (companyName: string) => {
     const filteredMessages = activeSession.messages.filter(message => {
-      const isJobSearch = message.role === "user" && 
-        (message.content.toLowerCase().includes("find jobs") || 
-         message.content.toLowerCase().includes("search jobs"));
+      const isJobSearch = message.role === "user" &&
+        (message.content.toLowerCase().includes("find jobs") ||
+          message.content.toLowerCase().includes("search jobs"));
       const isJobResult = message.role === "assistant" && message.jobs;
-      const isInvestorSearch = message.role === "user" && 
-        (message.content.toLowerCase().includes("find investors") || 
-         message.content.toLowerCase().includes("search investors"));
+      const isInvestorSearch = message.role === "user" &&
+        (message.content.toLowerCase().includes("find investors") ||
+          message.content.toLowerCase().includes("search investors"));
       const isInvestorResult = message.role === "assistant" && message.investors;
-      
+
       return !((isJobSearch || isJobResult) || (isInvestorSearch || isInvestorResult));
     });
 
@@ -399,15 +401,15 @@ const Chat = () => {
       ...activeSession,
       messages: [...filteredMessages, userMessage],
     };
-    
+
     setActiveSession(updatedSession);
     updateSessionInList(updatedSession);
     setIsLoading(true);
 
-    const filteredJobs = SAMPLE_JOBS.filter(job => 
+    const filteredJobs = SAMPLE_JOBS.filter(job =>
       job.companyName.toLowerCase().includes(companyName.toLowerCase())
     );
-    
+
     setTimeout(() => {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
@@ -416,12 +418,12 @@ const Chat = () => {
         timestamp: new Date().toISOString(),
         jobs: filteredJobs
       };
-      
+
       const finalUpdatedSession = {
         ...updatedSession,
         messages: [...updatedSession.messages, aiResponse],
       };
-      
+
       setActiveSession(finalUpdatedSession);
       updateSessionInList(finalUpdatedSession);
       setLastJobList(filteredJobs);
@@ -431,15 +433,15 @@ const Chat = () => {
 
   const findInvestors = (companyName: string) => {
     const filteredMessages = activeSession.messages.filter(message => {
-      const isJobSearch = message.role === "user" && 
-        (message.content.toLowerCase().includes("find jobs") || 
-         message.content.toLowerCase().includes("search jobs"));
+      const isJobSearch = message.role === "user" &&
+        (message.content.toLowerCase().includes("find jobs") ||
+          message.content.toLowerCase().includes("search jobs"));
       const isJobResult = message.role === "assistant" && message.jobs;
-      const isInvestorSearch = message.role === "user" && 
-        (message.content.toLowerCase().includes("find investors") || 
-         message.content.toLowerCase().includes("search investors"));
+      const isInvestorSearch = message.role === "user" &&
+        (message.content.toLowerCase().includes("find investors") ||
+          message.content.toLowerCase().includes("search investors"));
       const isInvestorResult = message.role === "assistant" && message.investors;
-      
+
       return !((isJobSearch || isJobResult) || (isInvestorSearch || isInvestorResult));
     });
 
@@ -454,15 +456,15 @@ const Chat = () => {
       ...activeSession,
       messages: [...filteredMessages, userMessage],
     };
-    
+
     setActiveSession(updatedSession);
     updateSessionInList(updatedSession);
     setIsLoading(true);
 
-    const filteredInvestors = SAMPLE_INVESTORS.filter(investor => 
+    const filteredInvestors = SAMPLE_INVESTORS.filter(investor =>
       investor.companyName.toLowerCase().includes(companyName.toLowerCase())
     );
-    
+
     setTimeout(() => {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
@@ -471,12 +473,12 @@ const Chat = () => {
         timestamp: new Date().toISOString(),
         investors: filteredInvestors
       };
-      
+
       const finalUpdatedSession = {
         ...updatedSession,
         messages: [...updatedSession.messages, aiResponse],
       };
-      
+
       setActiveSession(finalUpdatedSession);
       updateSessionInList(finalUpdatedSession);
       setLastInvestorList(filteredInvestors);
@@ -490,7 +492,7 @@ const Chat = () => {
 
   const sendMessage = async (content?: string) => {
     const messageContent = content || input;
-    
+
     if ((!messageContent.trim() && !content) || isLoading) return;
 
     const userMessage: Message = {
@@ -502,19 +504,19 @@ const Chat = () => {
 
     let updatedMessages = [...activeSession.messages];
     const lowerCaseInput = messageContent.trim().toLowerCase();
-    
+
     if (lowerCaseInput.includes("find jobs") || lowerCaseInput.includes("search jobs") ||
-        lowerCaseInput.includes("find investors") || lowerCaseInput.includes("search investors")) {
+      lowerCaseInput.includes("find investors") || lowerCaseInput.includes("search investors")) {
       updatedMessages = updatedMessages.filter(message => {
-        const isJobSearch = message.role === "user" && 
-          (message.content.toLowerCase().includes("find jobs") || 
-           message.content.toLowerCase().includes("search jobs"));
+        const isJobSearch = message.role === "user" &&
+          (message.content.toLowerCase().includes("find jobs") ||
+            message.content.toLowerCase().includes("search jobs"));
         const isJobResult = message.role === "assistant" && message.jobs;
-        const isInvestorSearch = message.role === "user" && 
-          (message.content.toLowerCase().includes("find investors") || 
-           message.content.toLowerCase().includes("search investors"));
+        const isInvestorSearch = message.role === "user" &&
+          (message.content.toLowerCase().includes("find investors") ||
+            message.content.toLowerCase().includes("search investors"));
         const isInvestorResult = message.role === "assistant" && message.investors;
-        
+
         return !((isJobSearch || isJobResult) || (isInvestorSearch || isInvestorResult));
       });
     }
@@ -523,7 +525,7 @@ const Chat = () => {
       ...activeSession,
       messages: [...updatedMessages, userMessage],
     };
-    
+
     setActiveSession(updatedSession);
     updateSessionInList(updatedSession);
     setInput("");
@@ -531,11 +533,11 @@ const Chat = () => {
 
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       let aiResponse: Message;
-      
+
       const lowerCaseInput = messageContent.trim().toLowerCase();
-      
+
       if (lowerCaseInput.includes("find companies in healthcare")) {
         aiResponse = {
           id: (Date.now() + 1).toString(),
@@ -554,7 +556,7 @@ const Chat = () => {
           companies: SAMPLE_COMPANIES
         };
         setLastCompanyList(SAMPLE_COMPANIES);
-      } else if (lowerCaseInput.includes("find ceos")) {
+      } else if (lowerCaseInput.includes("find ceos") || lowerCaseInput.includes("find decision maker, ceo or cto")) {
         const ceoList = SAMPLE_COMPANIES.map(company => ({
           id: company.id,
           name: company.ceo,
@@ -567,9 +569,9 @@ const Chat = () => {
           contact: company.contact,
           workEmail: company.workEmail,
           salesEmail: company.salesEmail,
-          description: company.description
+          description: company.description,
         }));
-        
+
         aiResponse = {
           id: (Date.now() + 1).toString(),
           role: "assistant",
@@ -581,14 +583,14 @@ const Chat = () => {
       } else if (lowerCaseInput.includes("find jobs") || lowerCaseInput.includes("search jobs")) {
         const companyNameMatch = messageContent.match(/find jobs in (.*)/i) || messageContent.match(/search jobs in (.*)/i);
         let filteredJobs = SAMPLE_JOBS;
-        
+
         if (companyNameMatch && companyNameMatch[1]) {
           const companyName = companyNameMatch[1].trim();
-          filteredJobs = SAMPLE_JOBS.filter(job => 
+          filteredJobs = SAMPLE_JOBS.filter(job =>
             job.companyName.toLowerCase().includes(companyName.toLowerCase())
           );
         }
-        
+
         aiResponse = {
           id: (Date.now() + 1).toString(),
           role: "assistant",
@@ -600,14 +602,14 @@ const Chat = () => {
       } else if (lowerCaseInput.includes("find investors") || lowerCaseInput.includes("search investors")) {
         const companyNameMatch = messageContent.match(/find investors in (.*)/i) || messageContent.match(/search investors in (.*)/i);
         let filteredInvestors = SAMPLE_INVESTORS;
-        
+
         if (companyNameMatch && companyNameMatch[1]) {
           const companyName = companyNameMatch[1].trim();
-          filteredInvestors = SAMPLE_INVESTORS.filter(investor => 
+          filteredInvestors = SAMPLE_INVESTORS.filter(investor =>
             investor.companyName.toLowerCase().includes(companyName.toLowerCase())
           );
         }
-        
+
         aiResponse = {
           id: (Date.now() + 1).toString(),
           role: "assistant",
@@ -623,7 +625,7 @@ const Chat = () => {
           content: "I'm preparing the Excel file for download...",
           timestamp: new Date().toISOString(),
         };
-        
+
         if (lastCompanyList.length > 0) {
           setTimeout(() => {
             downloadExcel(lastCompanyList);
@@ -634,7 +636,7 @@ const Chat = () => {
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Jobs");
             XLSX.writeFile(workbook, "job-list.xlsx");
-            
+
             toast({
               title: "Download complete",
               description: "The Jobs Excel file has been downloaded successfully.",
@@ -646,7 +648,7 @@ const Chat = () => {
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Jobs");
             XLSX.writeFile(workbook, "job-list.xlsx");
-            
+
             toast({
               title: "Download complete",
               description: "The Jobs Excel file has been downloaded successfully.",
@@ -658,7 +660,7 @@ const Chat = () => {
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Investors");
             XLSX.writeFile(workbook, "investor-list.xlsx");
-            
+
             toast({
               title: "Download complete",
               description: "The Investors Excel file has been downloaded successfully.",
@@ -675,15 +677,15 @@ const Chat = () => {
           timestamp: new Date().toISOString(),
         };
       }
-      
+
       const shouldUpdateTitle = updatedSession.messages.length === 1 && updatedSession.title === "New Chat";
-      
+
       const finalUpdatedSession = {
         ...updatedSession,
         messages: [...updatedSession.messages, aiResponse],
         title: shouldUpdateTitle ? getSessionTitle(messageContent) : updatedSession.title,
       };
-      
+
       setActiveSession(finalUpdatedSession);
       updateSessionInList(finalUpdatedSession);
     } catch (error) {
@@ -706,7 +708,7 @@ const Chat = () => {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Companies");
     XLSX.writeFile(workbook, "company-list.xlsx");
-    
+
     toast({
       title: "Download complete",
       description: "The Excel file has been downloaded successfully.",
@@ -734,7 +736,7 @@ const Chat = () => {
       model: activeSession.model,
       createdAt: new Date().toISOString(),
     };
-    
+
     setSessions([...sessions, newSession]);
     setActiveSession(newSession);
   };
@@ -757,11 +759,11 @@ const Chat = () => {
     if (sessions.length <= 1) {
       return;
     }
-    
+
     const updatedSessions = sessions.filter(session => session.id !== sessionId);
-    
+
     setSessions(updatedSessions);
-    
+
     if (sessionId === activeSession.id) {
       setActiveSession(updatedSessions[updatedSessions.length - 1]);
     }
@@ -773,10 +775,10 @@ const Chat = () => {
       messages: [],
       title: "New Chat",
     };
-    
+
     setActiveSession(clearedSession);
     updateSessionInList(clearedSession);
-    
+
     toast({
       title: "Chat cleared",
       description: "The conversation has been cleared.",
@@ -788,8 +790,8 @@ const Chat = () => {
       {isSidePanelOpen && (
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden" onClick={toggleSidePanel} />
       )}
-      
-      <SidePanel 
+
+      <SidePanel
         isOpen={isSidePanelOpen}
         sessions={sessions}
         activeSessionId={activeSession.id}
@@ -823,7 +825,7 @@ const Chat = () => {
             >
               {isSidePanelOpen ? <ChevronLeft className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
-            
+
             <div className="flex items-center">
               <h1 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
                 {activeSession.title}
@@ -831,9 +833,9 @@ const Chat = () => {
 
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2">
-            
+
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -881,14 +883,23 @@ const Chat = () => {
                     className="justify-start font-normal"
                     onClick={() => navigate('/chat/inbox/twitter')}
                   >
-                    <Twitter className="mr-2 h-4 w-4" />
+                    <FontAwesomeIcon icon={faXTwitter} />
                     Twitter Inbox
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="justify-start font-normal"
+                    onClick={() => navigate('/chat/inbox/whatsapp')}
+                  >
+                    <FontAwesomeIcon icon={faWhatsapp} />
+                    WhatsApp Inbox
                   </Button>
                 </div>
               </PopoverContent>
             </Popover>
             <ThemeToggle />
-            
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -908,7 +919,7 @@ const Chat = () => {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -927,8 +938,8 @@ const Chat = () => {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            
-            
+
+
             {/* <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -950,7 +961,7 @@ const Chat = () => {
           </div>
         </header>
 
-        <div 
+        <div
           ref={messageContainerRef}
           className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-slate-900"
         >
@@ -960,17 +971,17 @@ const Chat = () => {
                 {/* <BrainCircuit className="h-10 w-10 text-white" /> */}
                 <img src="./Bandera AI.png" alt="Logo" />
               </div>
-              
+
               <h2 className="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
                 Bandera AI
               </h2>
-              
+
               <p className="text-muted-foreground max-w-md mb-10 text-lg">
                 Ask a question or explore one of our suggestions to start your conversation.
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl w-full">
-                <div 
+                <div
                   className="p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all hover:translate-y-[-2px] hover:border-blue-200 dark:hover:border-blue-800 cursor-pointer"
                   onClick={() => handleQuestionSelect("Find Companies in the technology sector")}
                 >
@@ -982,21 +993,21 @@ const Chat = () => {
                     Discover tech companies and explore their details
                   </p>
                 </div>
-                
-                <div 
+
+                <div
                   className="p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all hover:translate-y-[-2px] hover:border-purple-200 dark:hover:border-purple-800 cursor-pointer"
                   onClick={() => handleQuestionSelect("Find CEOs of healthcare companies")}
                 >
                   <div className="mb-3 p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg w-fit">
                     <User className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Find CEOs</h3>
+                  <h3 className="font-semibold text-lg mb-2">Find Decision Maker, CEO, or CTO</h3>
                   <p className="text-sm text-muted-foreground">
-                    List prominent CEOs and their company information
+                    List prominent Descision Maker, CEO, or CTO and their company information
                   </p>
                 </div>
-                
-                <div 
+
+                <div
                   className="p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all hover:translate-y-[-2px] hover:border-green-200 dark:hover:border-green-800 cursor-pointer"
                   onClick={() => handleQuestionSelect("Download list")}
                 >
@@ -1008,8 +1019,8 @@ const Chat = () => {
                     Export data into a downloadable Excel file
                   </p>
                 </div>
-                
-                <div 
+
+                <div
                   className="p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all hover:translate-y-[-2px] hover:border-orange-200 dark:hover:border-orange-800 cursor-pointer"
                   onClick={() => handleQuestionSelect("Find Jobs in TechVision Inc.")}
                 >
@@ -1025,8 +1036,8 @@ const Chat = () => {
             </div>
           ) : (
             activeSession.messages.map((message, index) => (
-              <ChatMessage 
-                key={message.id} 
+              <ChatMessage
+                key={message.id}
                 message={message}
                 isLastMessage={index === activeSession.messages.length - 1}
                 onFindJobs={findJobs}
@@ -1034,7 +1045,7 @@ const Chat = () => {
               />
             ))
           )}
-          
+
           {isLoading && (
             <div className="flex items-center justify-center">
               <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-purple-500"></div>
@@ -1045,7 +1056,7 @@ const Chat = () => {
 
         <div className="p-4 sm:p-6 border-t border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
           <div className="max-w-3xl mx-auto relative">
-            <Tabs defaultValue="chat" className="w-full">              
+            <Tabs defaultValue="chat" className="w-full">
               <TabsContent value="chat" className="mt-0">
                 <div className="relative">
                   <Textarea
@@ -1059,7 +1070,7 @@ const Chat = () => {
                   />
                   <div className="absolute right-3 bottom-3 flex items-center gap-2">
                     <QuestionHint onSelectQuestion={handleQuestionSelect} />
-                    
+
                     <Button
                       className={cn(
                         "h-9 px-4 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-md hover:shadow-lg transition-all",
@@ -1082,25 +1093,19 @@ const Chat = () => {
                     </Button>
                   </div>
                 </div>
-                
-                <div className="flex justify-center">
-                  <p className="text-xs text-center text-muted-foreground mt-3 bg-gray-50 dark:bg-gray-800/50 px-3 py-1 rounded-full">
-                    AI may produce inaccurate information about people, places, or facts.
-                  </p>
-                </div>
               </TabsContent>
             </Tabs>
           </div>
         </div>
       </div>
-      <ChatHistoryModal 
-              isOpen={isChatHistoryModalOpen} 
-              onClose={() => setIsChatHistoryModalOpen(false)}
-              sessions={sessions}
-              activeSessionId={activeSession.id}
-              onSwitchSession={switchSession}
-              onDeleteSession={deleteSession}
-            />
+      <ChatHistoryModal
+        isOpen={isChatHistoryModalOpen}
+        onClose={() => setIsChatHistoryModalOpen(false)}
+        sessions={sessions}
+        activeSessionId={activeSession.id}
+        onSwitchSession={switchSession}
+        onDeleteSession={deleteSession}
+      />
     </div>
   );
 };

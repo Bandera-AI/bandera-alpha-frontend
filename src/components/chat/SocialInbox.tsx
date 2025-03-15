@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Mail, Linkedin, Twitter, ArrowLeft, Home } from "lucide-react";
+import { Mail, Linkedin, ArrowLeft, Home } from "lucide-react";
 import { EmailInbox } from "./inbox/EmailInbox";
 import { LinkedinInbox } from "./inbox/LinkedinInbox";
 import { TwitterInbox } from "./inbox/TwitterInbox";
@@ -9,12 +9,16 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Contact } from "@/types/inbox";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { WhatsappInbox } from "./inbox/WhatsappInbox";
 
 export const SocialInbox = () => {
   const [activeTab, setActiveTab] = useState("");
   const [emailContacts, setEmailContacts] = useState<Contact[]>([]);
   const [linkedinContacts, setLinkedinContacts] = useState<Contact[]>([]);
   const [twitterContacts, setTwitterContacts] = useState<Contact[]>([]);
+  const [whatsappContacts, setWhatsappContacts] = useState<Contact[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -39,6 +43,12 @@ export const SocialInbox = () => {
       const storedTwitterContacts = localStorage.getItem("twitterContacts");
       if (storedTwitterContacts) {
         setTwitterContacts(JSON.parse(storedTwitterContacts));
+      }
+
+      // Whatsapp contacts
+      const storedWhatsappContacts = localStorage.getItem("whatsappContacts");
+      if (storedWhatsappContacts) {
+        setWhatsappContacts(JSON.parse(storedWhatsappContacts));
       }
     };
 
@@ -81,16 +91,25 @@ export const SocialInbox = () => {
           setTwitterContacts(parsedContacts);
         }
       }
+
+      // Whatsapp contacts
+      const storedWhatsappContacts = localStorage.getItem("whatsappContacts");
+      if (storedWhatsappContacts) {
+        const parsedContacts = JSON.parse(storedWhatsappContacts);
+        if (JSON.stringify(parsedContacts) !== JSON.stringify(whatsappContacts)) {
+          setWhatsappContacts(parsedContacts);
+        }
+      }
     }, 2000); // Check every 2 seconds
 
     return () => clearInterval(checkForChanges);
-  }, [emailContacts, linkedinContacts, twitterContacts]);
+  }, [emailContacts, linkedinContacts, twitterContacts, whatsappContacts]);
 
   useEffect(() => {
     // Check if a specific tab is requested via query params
     const params = new URLSearchParams(location.search);
     const tab = params.get("tab");
-    if (tab && ["email", "linkedin", "twitter"].includes(tab)) {
+    if (tab && ["email", "linkedin", "twitter", "whatsapp"].includes(tab)) {
       setActiveTab(tab);
 
       toast({
@@ -133,7 +152,7 @@ export const SocialInbox = () => {
           setActiveTab(value);
           navigate(`/chat/inbox?tab=${value}`);
         }} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
             {/* <TabsTrigger value="all" className="flex items-center gap-2">
               <span>All</span>
             </TabsTrigger> */}
@@ -146,8 +165,12 @@ export const SocialInbox = () => {
               <span>LinkedIn</span>
             </TabsTrigger>
             <TabsTrigger value="twitter" className="flex items-center gap-2">
-              <Twitter className="h-4 w-4" />
+              <FontAwesomeIcon icon={faXTwitter} />
               <span>Twitter</span>
+            </TabsTrigger>
+            <TabsTrigger value="whatsapp" className="flex items-center gap-2">
+              <FontAwesomeIcon icon={faWhatsapp} />
+              <span>WhatsApp</span>
             </TabsTrigger>
           </TabsList>
 
@@ -166,6 +189,10 @@ export const SocialInbox = () => {
 
             <TabsContent value="twitter" className="m-0">
               <TwitterInbox contacts={twitterContacts} />
+            </TabsContent>
+
+            <TabsContent value="whatsapp" className="m-0">
+              <WhatsappInbox contacts={whatsappContacts} />
             </TabsContent>
           </div>
         </Tabs>

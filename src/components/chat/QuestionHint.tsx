@@ -24,8 +24,8 @@ export const QuestionHint = ({ onSelectQuestion }: QuestionHintProps) => {
     },
     {
       icon: <User className="h-4 w-4" />,
-      text: "Find CEOs",
-      description: "Get a list of prominent CEOs",
+      text: "Find Decision Maker, CEO, or CTO",
+      description: "Get a list of prominent Descision Maker, CEO, or CTO",
       color: "bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
     },
     {

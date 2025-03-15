@@ -9,7 +9,7 @@ export interface Contact {
     position?: string;
     lastContactDate?: string;
     isFollowing?: boolean;
-    platform: 'email' | 'linkedin' | 'twitter';
+    platform: 'email' | 'linkedin' | 'twitter' | 'whatsapp';
   }
   
   export interface Message {

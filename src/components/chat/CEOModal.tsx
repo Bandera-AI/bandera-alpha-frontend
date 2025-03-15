@@ -36,6 +36,8 @@ import {
   PlusCircle
 } from "lucide-react";
 import { LeadScorePolygon } from "./LeadScorePolygon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 interface CEOModalProps {
   ceo: CEOData;
@@ -61,10 +63,12 @@ export const CEOModal = ({
     email: boolean;
     linkedin: boolean;
     twitter: boolean;
+    whatsapp: boolean;
   }>({
     email: false,
     linkedin: false,
-    twitter: false
+    twitter: false,
+    whatsapp: false
   });
   const { toast } = useToast();
 
@@ -90,7 +94,7 @@ export const CEOModal = ({
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Generate a more specific, personalized message based on company info
-      const generatedMessage = 
+      const generatedMessage =
         `Hello ${ceo.company.split(' ')[0]}, 
 
 I recently learned about ${ceo.name}'s impressive achievements in the ${ceo.industry} sector. Your approach to innovation and growth has caught my attention, and I believe there could be potential synergies between our organizations.
@@ -121,12 +125,10 @@ Looking forward to your response,
   };
 
   const emailSuggestionTriggers = {
-    hello: `Hello ${ceo.company.split(" ")[0]}, I came across ${
-      ceo.name
-    } and wanted to connect.`,
-    hi: `Hi ${
-      ceo.company.split(" ")[0]
-    }, saw that you guys are hiring Software Engineer, we are specializing in placing top engineer talents across the globe, mind to a quick chat? `,
+    hello: `Hello ${ceo.company.split(" ")[0]}, I came across ${ceo.name
+      } and wanted to connect.`,
+    hi: `Hi ${ceo.company.split(" ")[0]
+      }, saw that you guys are hiring Software Engineer, we are specializing in placing top engineer talents across the globe, mind to a quick chat? `,
     "I'm reach": `I'm reaching out regarding ${ceo.name}'s innovative work in the ${ceo.industry} sector.`,
     "would you": `Would you be available for a 15-minute call next week to discuss how ${ceo.name} and our company could collaborate?`,
     "I'm follow": `I'm following up on our previous conversation about ${ceo.name}'s products.`,
@@ -185,9 +187,9 @@ Looking forward to your response,
       onFindInvestors(ceo.name);
     }
   };
-  const handleAddContact = (platform: 'email' | 'linkedin' | 'twitter') => {
+  const handleAddContact = (platform: 'email' | 'linkedin' | 'twitter' | 'whatsapp') => {
     setAddingContact(prev => ({ ...prev, [platform]: true }));
-    
+
     // Create a new contact object
     const newContact: Contact = {
       id: `${platform}-${Date.now()}`,
@@ -198,24 +200,25 @@ Looking forward to your response,
       ...(platform === 'email' && { email: ceo.workEmail || `${ceo.company.split(' ')[0].toLowerCase()}@${ceo.website.replace(/(^\w+:|^)\/\//, "").split('/')[0]}` }),
       ...(platform === 'linkedin' && { handle: ceo.company.split(' ')[0].toLowerCase() }),
       ...(platform === 'twitter' && { handle: ceo.company.split(' ')[0].toLowerCase() }),
+      ...(platform === 'whatsapp' && { handle: ceo.company.split(' ')[0].toLowerCase() }),
     };
-    
+
     // Get existing contacts from localStorage
     const existingContactsString = localStorage.getItem(`${platform}Contacts`);
-    const existingContacts: Contact[] = existingContactsString 
-      ? JSON.parse(existingContactsString) 
+    const existingContacts: Contact[] = existingContactsString
+      ? JSON.parse(existingContactsString)
       : [];
-    
+
     // Check if contact already exists
     const contactExists = existingContacts.some(
       contact => contact.name === newContact.name && contact.platform === platform
     );
-    
+
     if (!contactExists) {
       // Add new contact
       const updatedContacts = [...existingContacts, newContact];
       localStorage.setItem(`${platform}Contacts`, JSON.stringify(updatedContacts));
-      
+
       toast({
         title: "Contact Added",
         description: `${ceo.company} has been added to your ${platform} contacts.`,
@@ -228,7 +231,7 @@ Looking forward to your response,
         variant: "default",
       });
     }
-    
+
     setTimeout(() => {
       setAddingContact(prev => ({ ...prev, [platform]: false }));
     }, 1500);
@@ -241,7 +244,7 @@ Looking forward to your response,
     "I am from New York.",
   ];
 
-  useEffect(()=>{
+  useEffect(() => {
     setEmailMessage("");
     setEmailSubject(`Regarding ${ceo.name}`);
   }, [ceoEmailModalOpen, ceo])
@@ -331,8 +334,8 @@ Looking forward to your response,
                   Add to Inbox
                 </h3>
                 <div className="grid grid-cols-3 gap-2">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     className="flex items-center gap-1"
                     onClick={() => handleAddContact('email')}
@@ -350,8 +353,8 @@ Looking forward to your response,
                       </>
                     )}
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     className="flex items-center gap-1"
                     onClick={() => handleAddContact('linkedin')}
@@ -369,8 +372,8 @@ Looking forward to your response,
                       </>
                     )}
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     className="flex items-center gap-1"
                     onClick={() => handleAddContact('twitter')}
@@ -383,8 +386,27 @@ Looking forward to your response,
                       </>
                     ) : (
                       <>
-                        <Twitter className="h-3 w-3 mr-1 text-blue-600" />
+                        <FontAwesomeIcon icon={faXTwitter} className="h-3 w-3 mr-1 text-blue-600" />
                         Twitter
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-1"
+                    onClick={() => handleAddContact('whatsapp')}
+                    disabled={addingContact.whatsapp}
+                  >
+                    {addingContact.whatsapp ? (
+                      <>
+                        <div className="animate-spin h-3 w-3 mr-1 border-2 border-b-transparent border-current rounded-full" />
+                        Adding...
+                      </>
+                    ) : (
+                      <>
+                        <FontAwesomeIcon icon={faWhatsapp} />
+                        WhatsApp
                       </>
                     )}
                   </Button>
@@ -397,11 +419,11 @@ Looking forward to your response,
               <h3 className="text-sm font-medium text-muted-foreground mb-10 gap-4 flex items-end -translate-y-2">
                 Lead Scores
                 <span
-                      className={`${scoreColor(
-                        ceo.leadScores.rank
-                      )} font-medium text-xl`}
-                    >
-                      {ceo.leadScores.rank}
+                  className={`${scoreColor(
+                    ceo.leadScores.rank
+                  )} font-medium text-xl`}
+                >
+                  {ceo.leadScores.rank}
                 </span>
               </h3>
               <div className="space-y-4">
@@ -417,32 +439,34 @@ Looking forward to your response,
                   Contact Links
                 </h3>
                 <div className="flex gap-4 h-8 items-center ">
-                {ceo.contact.phone && (
-                  <a href={ceo.contact.phone}>
-                    <Phone className="h-6 w-6 text-green-600" />
-                  </a>
-                )}
-                {ceo.contact.instagram && (
-                  <a href={ceo.contact.instagram}>
-                    <Instagram className="h-6 w-6 text-violet-600" />
-                  </a>
-                )}
-                {ceo.contact.x && (
-                  <a href={ceo.contact.x}>
-                    <Twitter
-                      className="h-6 w-6 text-foreground"
-                      href={ceo.contact.x}
-                    />
-                  </a>
-                )}
-                {ceo.contact.linkedin && (
-                  <a href={ceo.contact.linkedin}>
-                    <Linkedin
-                      className="h-6 w-6 text-blue-600"
-                      href={ceo.contact.linkedin}
-                    />
-                  </a>
-                )}
+                  {ceo.contact.phone && (
+                    <a href={ceo.contact.phone}>
+                      <Phone className="h-6 w-6 text-green-600" />
+                    </a>
+                  )}
+                  {ceo.contact.instagram && (
+                    <a href={ceo.contact.instagram}>
+                      <Instagram className="h-6 w-6 text-violet-600" />
+                    </a>
+                  )}
+                  {ceo.contact.x && (
+                    <a href={ceo.contact.x}>
+                      <FontAwesomeIcon icon={faXTwitter} className="h-6 w-6 text-foreground" href={ceo.contact.x} />
+                    </a>
+                  )}
+                  {ceo.contact.linkedin && (
+                    <a href={ceo.contact.linkedin}>
+                      <Linkedin
+                        className="h-6 w-6 text-blue-600"
+                        href={ceo.contact.linkedin}
+                      />
+                    </a>
+                  )}
+                  {ceo.contact.linkedin && (
+                    <a href={ceo.contact.linkedin}>
+                      <FontAwesomeIcon icon={faWhatsapp} className="h-6 w-6 text-green-600" href={ceo.contact.linkedin} />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -458,25 +482,25 @@ Looking forward to your response,
           )}
           {/* New buttons for Jobs and Investors */}
           <div className="flex space-x-2 py-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full flex items-center gap-2"
-                  onClick={handleFindJobs}
-                >
-                  <Briefcase className="h-4 w-4 text-blue-500" />
-                  Find Jobs
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full flex items-center gap-2"
-                  onClick={handleFindInvestors}
-                >
-                  <DollarSign className="h-4 w-4 text-green-500" />
-                  Find Investors
-                </Button>
-              </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full flex items-center gap-2"
+              onClick={handleFindJobs}
+            >
+              <Briefcase className="h-4 w-4 text-blue-500" />
+              Find Jobs
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full flex items-center gap-2"
+              onClick={handleFindInvestors}
+            >
+              <DollarSign className="h-4 w-4 text-green-500" />
+              Find Investors
+            </Button>
+          </div>
 
         </DialogContent>
       </Dialog>
@@ -507,8 +531,7 @@ Looking forward to your response,
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm">
                   {ceo.workEmail ||
-                    `${ceo.company.split(" ")[0].toLowerCase()}@${
-                      ceo.website.replace(/(^\w+:|^)\/\//, "").split("/")[0]
+                    `${ceo.company.split(" ")[0].toLowerCase()}@${ceo.website.replace(/(^\w+:|^)\/\//, "").split("/")[0]
                     }`}
                 </span>
               </div>
@@ -555,7 +578,7 @@ Looking forward to your response,
                     </>
                   )}
                 </Button>
-                </label>
+              </label>
               {/* <ReactTextareaAutocomplete
                 id="message"
                 type="text"
@@ -573,9 +596,8 @@ Looking forward to your response,
                 suggestionTriggers={emailSuggestionTriggers}
                 onSuggestionSelect={handleSuggestionSelect}
                 onChange={(e) => setEmailMessage(e.target.value)}
-                placeholder={`Write a message to ${
-                  ceo.company.split(" ")[0]
-                }...`}
+                placeholder={`Write a message to ${ceo.company.split(" ")[0]
+                  }...`}
                 onGenerateAI={handleGenerateAI}
                 className="min-h-[120px]"
               />

@@ -4,7 +4,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EmailInbox } from "./EmailInbox";
 import { LinkedinInbox } from "./LinkedinInbox";
 import { TwitterInbox } from "./TwitterInbox";
+import { WhatsappInbox } from "./WhatsappInbox";
 import { Mail, Linkedin, Twitter } from "lucide-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 export const NetworkHub: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("email");
@@ -17,48 +20,59 @@ export const NetworkHub: React.FC = () => {
           Manage your professional communications, job leads, and investment opportunities in one place
         </p>
       </div>
-      
-      <Tabs 
-        defaultValue="email" 
-        className="w-full" 
+
+      <Tabs
+        defaultValue="email"
+        className="w-full"
         onValueChange={(value) => setActiveTab(value)}
       >
         <div className="border-b">
           <TabsList className="h-14 w-full justify-start bg-transparent p-0">
-            <TabsTrigger 
+            <TabsTrigger
               value="email"
               className="data-[state=active]:border-primary data-[state=active]:bg-background data-[state=active]:shadow-none border-b-2 border-transparent px-6 rounded-none h-14"
             >
               <Mail className="h-5 w-5 mr-2" />
               Email
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="linkedin"
               className="data-[state=active]:border-primary data-[state=active]:bg-background data-[state=active]:shadow-none border-b-2 border-transparent px-6 rounded-none h-14"
             >
               <Linkedin className="h-5 w-5 mr-2" />
               LinkedIn
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="twitter"
               className="data-[state=active]:border-primary data-[state=active]:bg-background data-[state=active]:shadow-none border-b-2 border-transparent px-6 rounded-none h-14"
             >
-              <Twitter className="h-5 w-5 mr-2" />
-              Twitter
+              <FontAwesomeIcon icon={faXTwitter} />
+              <span>Twitter</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="whatsapp"
+              className="data-[state=active]:border-primary data-[state=active]:bg-background data-[state=active]:shadow-none border-b-2 border-transparent px-6 rounded-none h-14"
+            >
+              <FontAwesomeIcon icon={faWhatsapp} />
+              <span>WhatsApp</span>
             </TabsTrigger>
           </TabsList>
         </div>
-        
+
         <TabsContent value="email" className="mt-6 p-0 border-none">
           <EmailInbox />
         </TabsContent>
-        
+
         <TabsContent value="linkedin" className="mt-6 p-0 border-none">
           <LinkedinInbox />
         </TabsContent>
-        
+
         <TabsContent value="twitter" className="mt-6 p-0 border-none">
           <TwitterInbox />
+        </TabsContent>
+
+        <TabsContent value="whatsapp" className="mt-6 p-0 border-none">
+          <WhatsappInbox />
         </TabsContent>
       </Tabs>
     </div>

@@ -35,6 +35,8 @@ import {
   Wand2,
   PlusCircle
 } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { LeadScorePolygon } from "./LeadScorePolygon";
 
 interface CompanyModalProps {
@@ -61,10 +63,12 @@ export const CompanyModal = ({
     email: boolean;
     linkedin: boolean;
     twitter: boolean;
+    whatsapp: boolean;
   }>({
     email: false,
     linkedin: false,
-    twitter: false
+    twitter: false,
+    whatsapp: false,
   });
   const { toast } = useToast();
 
@@ -185,7 +189,7 @@ Looking forward to your response,
       onFindInvestors(company.name);
     }
   };
-  const handleAddContact = (platform: 'email' | 'linkedin' | 'twitter') => {
+  const handleAddContact = (platform: 'email' | 'linkedin' | 'twitter' | 'whatsapp') => {
     setAddingContact(prev => ({ ...prev, [platform]: true }));
     
     // Create a new contact object
@@ -198,6 +202,7 @@ Looking forward to your response,
       ...(platform === 'email' && { email: company.workEmail || `${company.ceo.split(' ')[0].toLowerCase()}@${company.website.replace(/(^\w+:|^)\/\//, "").split('/')[0]}` }),
       ...(platform === 'linkedin' && { handle: company.ceo.split(' ')[0].toLowerCase() }),
       ...(platform === 'twitter' && { handle: company.ceo.split(' ')[0].toLowerCase() }),
+      ...(platform === 'whatsapp' && { handle: company.ceo.split(' ')[0].toLowerCase() }),
     };
     
     // Get existing contacts from localStorage
@@ -383,8 +388,27 @@ Looking forward to your response,
                       </>
                     ) : (
                       <>
-                        <Twitter className="h-3 w-3 mr-1 text-blue-600" />
+                        <FontAwesomeIcon icon={faXTwitter} className="h-3 w-3 mr-1 text-blue-600" />
                         Twitter
+                      </>
+                    )}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="flex items-center gap-1"
+                    onClick={() => handleAddContact('whatsapp')}
+                    disabled={addingContact.whatsapp}
+                  >
+                    {addingContact.whatsapp ? (
+                      <>
+                        <div className="animate-spin h-3 w-3 mr-1 border-2 border-b-transparent border-current rounded-full" />
+                        Adding...
+                      </>
+                    ) : (
+                      <>
+                        <FontAwesomeIcon icon={faWhatsapp} />
+                        WhatsApp
                       </>
                     )}
                   </Button>
@@ -429,10 +453,7 @@ Looking forward to your response,
                 )}
                 {company.contact.x && (
                   <a href={company.contact.x}>
-                    <Twitter
-                      className="h-6 w-6 text-foreground"
-                      href={company.contact.x}
-                    />
+                    <FontAwesomeIcon icon={faXTwitter} className="h-6 w-6 text-foreground" href={company.contact.x} />
                   </a>
                 )}
                 {company.contact.linkedin && (
@@ -441,6 +462,11 @@ Looking forward to your response,
                       className="h-6 w-6 text-blue-600"
                       href={company.contact.linkedin}
                     />
+                  </a>
+                )}
+                {company.contact.whatsapp && (
+                  <a href={company.contact.whatsapp}>
+                    <FontAwesomeIcon icon={faWhatsapp} className="h-6 w-6 text-green-600" />
                   </a>
                 )}
                 </div>
