@@ -556,7 +556,7 @@ const Chat = () => {
           companies: SAMPLE_COMPANIES
         };
         setLastCompanyList(SAMPLE_COMPANIES);
-      } else if (lowerCaseInput.includes("find ceos") || lowerCaseInput.includes("find decision maker, ceo or cto")) {
+      } else if ((lowerCaseInput.includes("find") && lowerCaseInput.includes("ceo"))||(lowerCaseInput.includes("find") && lowerCaseInput.includes("cto"))) {
         const ceoList = SAMPLE_COMPANIES.map(company => ({
           id: company.id,
           name: company.ceo,
@@ -996,7 +996,7 @@ const Chat = () => {
 
                 <div
                   className="p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all hover:translate-y-[-2px] hover:border-purple-200 dark:hover:border-purple-800 cursor-pointer"
-                  onClick={() => handleQuestionSelect("Find CEOs of healthcare companies")}
+                  onClick={() => handleQuestionSelect("Find Decision Maker, CEO, or CTO")}
                 >
                   <div className="mb-3 p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg w-fit">
                     <User className="h-5 w-5 text-purple-600 dark:text-purple-400" />

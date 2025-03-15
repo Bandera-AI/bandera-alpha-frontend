@@ -25,7 +25,7 @@ export const SocialInbox = () => {
 
   // Load contacts from localStorage
   useEffect(() => {
-    navigate("/chat/inbox?tab=email");
+    // navigate("/chat/inbox?tab=email");
     const loadContacts = () => {
       // Email contacts
       const storedEmailContacts = localStorage.getItem("emailContacts");
