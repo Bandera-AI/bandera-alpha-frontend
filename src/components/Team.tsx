@@ -6,6 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Mail, Linkedin, Twitter, Phone, Globe } from "lucide-react";
 import CEO_avatar from '/bandera-uploads/photo_5368398345212653732_y.jpg';
 import CTO_avatar from '/bandera-uploads/T032XS1SL0M-U063T2L1SBY-e179f9a1d4df-512.png';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const teamMembers = [
   {
@@ -142,7 +144,7 @@ const Team = () => {
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
                         >
-                          <Twitter className="h-4 w-4 text-bandera-blue" />
+                          <FontAwesomeIcon icon={faXTwitter} className="h-4 w-4 text-bandera-blue"/>
                           <span>{member.contact.twitter}</span>
                         </a> : <></>}
                       {/* {member.contact.website ?

@@ -31,6 +31,7 @@ function App() {
               <Route path="/chat/inbox/email" element={<Navigate to="/chat/inbox?tab=email" replace />} />
               <Route path="/chat/inbox/linkedin" element={<Navigate to="/chat/inbox?tab=linkedin" replace />} />
               <Route path="/chat/inbox/twitter" element={<Navigate to="/chat/inbox?tab=twitter" replace />} />
+              <Route path="/chat/inbox/whatsapp" element={<Navigate to="/chat/inbox?tab=whatsapp" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

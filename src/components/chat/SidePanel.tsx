@@ -222,11 +222,6 @@ const SidePanel = ({
         </div>
       </ScrollArea>
       
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-        <div className="text-xs text-center text-gray-500 dark:text-gray-400">
-          Dialoggy v1.0 • AI Assistant
-        </div>
-      </div>
     </div>
   );
 };

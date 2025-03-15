@@ -25,7 +25,7 @@ export interface CompanyData {
   position?: string;
   ceo: string;
   website: string;
-  contact: { phone: string; instagram: string; x: string; linkedin: string };
+  contact: { phone: string; instagram: string; x: string; linkedin: string, whatsapp: string };
   industry: string;
   location: string;
   workEmail?: string;
@@ -45,7 +45,7 @@ export interface CEOData {
   position?: string;
   company: string;
   website: string;
-  contact: { phone: string; instagram: string; x: string; linkedin: string };
+  contact: { phone: string; instagram: string; x: string; linkedin: string; whatsapp: string; };
   industry: string;
   location: string;
   workEmail?: string;

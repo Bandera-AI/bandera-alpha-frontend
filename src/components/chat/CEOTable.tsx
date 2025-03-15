@@ -135,7 +135,7 @@ export const CEOTable = ({ ceos, onFindJobs, onFindInvestors }: CEOTableProps) =
                 {renderSortableHeader('company', 'Company')}
                 {renderSortableHeader('website', 'Website')}
                 {renderSortableHeader('location', 'Location')}
-                <th className="px-4 py-3 text-center font-semibold text-gray-700 dark:text-gray-300" colSpan={3}>Actions</th>
+                {/* <th className="px-4 py-3 text-center font-semibold text-gray-700 dark:text-gray-300" colSpan={3}>Actions</th> */}
               </tr>
             </thead>
             <tbody>
@@ -188,7 +188,7 @@ export const CEOTable = ({ ceos, onFindJobs, onFindInvestors }: CEOTableProps) =
                       </a>
                     </td>
                     <td className="px-4 py-3">{company.location}</td>
-                    <td className="px-2 py-3 text-center">
+                    {/* <td className="px-2 py-3 text-center">
                       <Button
                         size="sm"
                         variant="outline"
@@ -214,7 +214,7 @@ export const CEOTable = ({ ceos, onFindJobs, onFindInvestors }: CEOTableProps) =
                       <div className="p-1.5 bg-green-100 dark:bg-green-900/50 rounded-full hover:bg-green-200 dark:hover:bg-green-800/50 transition-colors inline-flex">
                         <ChevronRight className="h-4 w-4 text-green-600 dark:text-green-400" />
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}
