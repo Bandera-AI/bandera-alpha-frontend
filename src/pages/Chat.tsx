@@ -217,7 +217,7 @@ const SAMPLE_HEALTHCARE_COMPANIES: CompanyData[] = [
 const SAMPLE_AI_COMPANIES: CompanyData[] = [
   {
       id: "1",
-      name: "Nvidia",
+      name: "NVIDIA",
       position: "CEO",
       ceo: "Jensen Huang",
       website: "https://www.nvidia.com",
@@ -753,7 +753,7 @@ const Chat = () => {
           companies: SAMPLE_AI_COMPANIES
         };
         setLastCompanyList(SAMPLE_AI_COMPANIES);
-      } else if (lowerCaseInput.includes("find companies in top booming")) {
+      } else if (lowerCaseInput.includes("find top booming ai")) {
         aiResponse = {
           id: (Date.now() + 1).toString(),
           role: "assistant",
