@@ -573,7 +573,11 @@ Looking forward to your response,
                     </>
                   ) : (
                     <>
-                      <Wand2 className="h-3 w-3 mr-1 text-violet-600" />
+                      <img
+                        src="/bandera-uploads/8ad02e8a-9987-4fd5-85cc-1502ea1e93a8.png"
+                        alt="Bandera AI"
+                        className="h-[20px] w-[18px] mr-1 text-violet-600"
+                      />
                       Generate AI
                     </>
                   )}
