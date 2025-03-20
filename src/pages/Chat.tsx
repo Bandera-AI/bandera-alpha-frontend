@@ -214,6 +214,212 @@ const SAMPLE_HEALTHCARE_COMPANIES: CompanyData[] = [
   }
 ];
 
+const SAMPLE_AI_COMPANIES: CompanyData[] = [
+  {
+      id: "1",
+      name: "Nvidia",
+      position: "CEO",
+      ceo: "Jensen Huang",
+      website: "https://www.nvidia.com",
+      contact: {
+          phone: "+1 408-486-2000",
+          instagram: "https://www.instagram.com/nvidia/",
+          x: "https://x.com/nvidia",
+          linkedin: "https://www.linkedin.com/company/nvidia",
+          whatsapp: "+1 (408) 486-2000"
+      },
+      industry: "Artificial Intelligence",
+      location: "Santa Clara, CA",
+      workEmail: "info@nvidia.com",
+      salesEmail: "sales@nvidia.com",
+      leadScores: { engagement: 95, firmographicFit: 98, conversion: 96, rank: 97 },
+      description: "Nvidia is a leader in AI hardware and software development, providing solutions for deep learning and AI applications across industries."
+  },
+  {
+      id: "2",
+      name: "OpenAI",
+      position: "CEO",
+      ceo: "Sam Altman",
+      website: "https://openai.com",
+      contact: {
+          phone: "+1 415-762-4000",
+          instagram: "https://www.instagram.com/openai/",
+          x: "https://x.com/openai",
+          linkedin: "https://www.linkedin.com/company/openai",
+          whatsapp: "+1 (415) 762-4000"
+      },
+      industry: "Artificial Intelligence",
+      location: "San Francisco, CA",
+      workEmail: "info@openai.com",
+      salesEmail: "business@openai.com",
+      leadScores: { engagement: 92, firmographicFit: 90, conversion: 94, rank: 93 },
+      description: "OpenAI is a pioneer in AI research and development, known for models like GPT-3 and DALL-E, focusing on natural language processing and image generation."
+  },
+  {
+      id: "3",
+      name: "C3 AI",
+      position: "CEO",
+      ceo: "Thomas M. Siebel",
+      website: "https://c3.ai",
+      contact: {
+          phone: "+1 650-503-2200",
+          instagram: "https://www.instagram.com/c3.ai/",
+          x: "https://x.com/c3.ai",
+          linkedin: "https://www.linkedin.com/company/c3.ai",
+          whatsapp: "+1 (650) 503-2200"
+      },
+      industry: "Artificial Intelligence",
+      location: "Redwood City, CA",
+      workEmail: "info@c3.ai",
+      salesEmail: "sales@c3.ai",
+      leadScores: { engagement: 85, firmographicFit: 88, conversion: 82, rank: 84 },
+      description: "C3 AI provides enterprise AI software solutions to help organizations integrate AI into their operations and decision-making processes."
+  },
+  {
+      id: "4",
+      name: "Bandera AI Ventures",
+      position: "CEO",
+      ceo: "Ryan Alexander",
+      website: "https://banderaai.com",
+      contact: {
+          phone: "+1 512-123-4567",
+          instagram: "https://www.instagram.com/banderaai/",
+          x: "https://x.com/banderaai",
+          linkedin: "https://www.linkedin.com/company/banderaai",
+          whatsapp: "+1 (512) 123-4567"
+      },
+      industry: "Artificial Intelligence",
+      location: "Austin, TX",
+      workEmail: "info@banderaai.com",
+      salesEmail: "sales@banderaai.com",
+      leadScores: { engagement: 80, firmographicFit: 82, conversion: 81, rank: 83 },
+      description: "Bandera AI Ventures specializes in developing AI solutions for data analytics and machine learning applications, focusing on innovative AI technologies."
+  },
+  {
+      id: "5",
+      name: "Anthropic",
+      position: "CEO",
+      ceo: "Claire Wang",
+      website: "https://www.anthropic.com",
+      contact: {
+          phone: "+1 415-762-4000",
+          instagram: "https://www.instagram.com/anthropic/",
+          x: "https://x.com/anthropic",
+          linkedin: "https://www.linkedin.com/company/anthropic",
+          whatsapp: "+1 (415) 762-4000"
+      },
+      industry: "Artificial Intelligence",
+      location: "San Francisco, CA",
+      workEmail: "info@anthropic.com",
+      salesEmail: "business@anthropic.com",
+      leadScores: { engagement: 88, firmographicFit: 85, conversion: 89, rank: 87 },
+      description: "Anthropic is an AI safety and research company focused on developing general AI systems and large language models, emphasizing AI safety and ethical considerations."
+  }
+];
+
+const SAMPLE_AI_POWER_COMPANIES: CompanyData[] = [
+  {
+      id: "1",
+      name: "Bandera AI",
+      position: "CEO",
+      ceo: "Ryan Alexander",
+      website: "https://banderaai.com",
+      contact: {
+          phone: "+1 512-123-4567",
+          instagram: "https://www.instagram.com/banderaai/",
+          x: "https://x.com/banderaai",
+          linkedin: "https://www.linkedin.com/company/banderaai",
+          whatsapp: "+1 (512) 123-4567"
+      },
+      industry: "Artificial Intelligence",
+      location: "Austin, TX",
+      workEmail: "info@banderaai.com",
+      salesEmail: "sales@banderaai.com",
+      leadScores: { engagement: 98, firmographicFit: 97, conversion: 99, rank: 98 },
+      description: "Bandera AI specializes in cutting-edge AI solutions for data analytics and machine learning applications, focusing on innovative AI technologies for enterprise clients."
+  },
+  {
+      id: "2",
+      name: "Cyera",
+      position: "Co-founder & CEO",
+      ceo: "Yotam Segev",
+      website: "https://www.cyera.io",
+      contact: {
+          phone: "+1 212-203-3900",
+          instagram: "https://www.instagram.com/cyera_io/",
+          x: "https://x.com/cyera_io",
+          linkedin: "https://www.linkedin.com/company/cyera-io",
+          whatsapp: "+1 (212) 203-3900"
+      },
+      industry: "Data Security",
+      location: "New York, NY",
+      workEmail: "info@cyera.io",
+      salesEmail: "sales@cyera.io",
+      leadScores: { engagement: 92, firmographicFit: 95, conversion: 90, rank: 93 },
+      description: "Cyera is a data security company offering an AI-powered, agentless platform for instant data discovery, classification, and protection across multi-cloud and hybrid environments."
+  },
+  {
+      id: "3",
+      name: "Cresta",
+      position: "Co-founder & CEO",
+      ceo: "Zayd Enam",
+      website: "https://cresta.com",
+      contact: {
+          phone: "+1 650-900-7116",
+          instagram: "https://www.instagram.com/cresta_ai/",
+          x: "https://x.com/cresta_ai",
+          linkedin: "https://www.linkedin.com/company/cresta-ai",
+          whatsapp: "+1 (650) 900-7116"
+      },
+      industry: "Artificial Intelligence",
+      location: "Palo Alto, CA",
+      workEmail: "info@cresta.com",
+      salesEmail: "sales@cresta.com",
+      leadScores: { engagement: 88, firmographicFit: 91, conversion: 89, rank: 90 },
+      description: "Cresta is a leading contact center AI platform company, providing generative AI solutions to improve agent performance and customer experience in contact centers."
+  },
+  {
+      id: "4",
+      name: "Astranis",
+      position: "Co-founder & CEO",
+      ceo: "John Gedmark",
+      website: "https://www.astranis.com",
+      contact: {
+          phone: "+1 415-305-0700",
+          instagram: "https://www.instagram.com/astranis_space/",
+          x: "https://x.com/astranis",
+          linkedin: "https://www.linkedin.com/company/astranis",
+          whatsapp: "+1 (415) 305-0700"
+      },
+      industry: "Satellite Communications",
+      location: "San Francisco, CA",
+      workEmail: "info@astranis.com",
+      salesEmail: "sales@astranis.com",
+      leadScores: { engagement: 85, firmographicFit: 87, conversion: 86, rank: 86 },
+      description: "Astranis Space Technologies Corp. develops small geostationary communications satellites to provide affordable and reliable satellite internet connectivity to underserved regions worldwide."
+  },
+  {
+      id: "5",
+      name: "Ironclad",
+      position: "Co-founder & CEO",
+      ceo: "Jason Boehmig",
+      website: "https://ironcladapp.com",
+      contact: {
+          phone: "+1 844-476-6258",
+          instagram: "https://www.instagram.com/ironcladapp/",
+          x: "https://x.com/ironcladapp",
+          linkedin: "https://www.linkedin.com/company/ironclad-inc-",
+          whatsapp: "+1 (844) 476-6258"
+      },
+      industry: "Legal Technology",
+      location: "San Francisco, CA",
+      workEmail: "info@ironcladapp.com",
+      salesEmail: "sales@ironcladapp.com",
+      leadScores: { engagement: 82, firmographicFit: 84, conversion: 83, rank: 83 },
+      description: "Ironclad is a leading contract lifecycle management platform that helps businesses streamline the creation, negotiation, and management of contracts using AI and cloud-based technology."
+  }
+];
+
 const SAMPLE_JOBS: JobData[] = [
   {
     id: "1",
@@ -538,7 +744,25 @@ const Chat = () => {
 
       const lowerCaseInput = messageContent.trim().toLowerCase();
 
-      if (lowerCaseInput.includes("find companies in healthcare")) {
+      if (lowerCaseInput.includes("find companies in ai industry")) {
+        aiResponse = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: "Here are the companies matching your search criteria:",
+          timestamp: new Date().toISOString(),
+          companies: SAMPLE_AI_COMPANIES
+        };
+        setLastCompanyList(SAMPLE_AI_COMPANIES);
+      } else if (lowerCaseInput.includes("find companies in top booming")) {
+        aiResponse = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: "Here are the companies matching your search criteria:",
+          timestamp: new Date().toISOString(),
+          companies: SAMPLE_AI_POWER_COMPANIES
+        };
+        setLastCompanyList(SAMPLE_AI_POWER_COMPANIES);
+      } else if (lowerCaseInput.includes("find companies in healthcare")) {
         aiResponse = {
           id: (Date.now() + 1).toString(),
           role: "assistant",
