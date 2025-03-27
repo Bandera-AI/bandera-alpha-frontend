@@ -1,8 +1,8 @@
 ## 🚀 **Bandera AI Platform Frontend**  
 
--Fast API template
--Framework: React.js
--Style: SCSS, TailwindCSS
+- Fast API template
+- Framework: React.js
+- Style: SCSS, TailwindCSS
 
 # 💡 **How to run this?**
 
